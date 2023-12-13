@@ -24,8 +24,10 @@ export const WalletButton = () => {
     }
   };
   return (
-    <button className="btn-shadow text-primary rounded-full bg-white px-9 py-2 font-bold" onClick={() => connectWallet}>
-            Connect Wallet →
-          </button>
-  )
-}
+    <button
+      className="btn-shadow text-primary rounded-full bg-white px-9 py-2 font-bold"
+      onClick={() => connectWallet()}>
+      Connect Wallet →
+    </button>
+  );
+};
