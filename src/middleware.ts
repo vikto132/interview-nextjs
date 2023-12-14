@@ -1,8 +1,8 @@
 import { authMiddleware } from "@clerk/nextjs";
+import { NextResponse, type NextRequest } from 'next/server';
 
-// This example protects all routes including api/trpc routes
-// Please edit this to allow other routes to be public as needed.
-// See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your Middleware
+const BLOCKED_COUNTRY = 'JP'
+
 export default authMiddleware({
   publicRoutes: ["/"],
 });
@@ -10,3 +10,12 @@ export default authMiddleware({
 export const config = {
   matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };
+
+export function middleware(req: NextRequest) {
+  const country = req.geo?.country ?? 'VN';
+
+  if (country === BLOCKED_COUNTRY) {
+    return new Response('Blocked for legal reasons', { status: 451 })
+  }
+  return NextResponse.next();
+}
